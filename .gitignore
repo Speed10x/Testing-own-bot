@@ -1,5 +1,8 @@
-### `.gitignore`
-
-```gitignore
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.log
+
+# Virtual Environments
+venv/
+env/
