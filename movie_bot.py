@@ -27,6 +27,8 @@ def start(update: Update, _: CallbackContext) -> None:
         f'Welcome! Please login with /login <password>\n'
         f'Visit our channel for more movies: {settings["channel_link"]}'
     )
+
+
 def main() -> None:
     updater = Updater(TELEGRAM_BOT_TOKEN)
     dispatcher = updater.dispatcher
