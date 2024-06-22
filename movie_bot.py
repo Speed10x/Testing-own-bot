@@ -10,10 +10,16 @@ OMDB_API_KEY = os.getenv('OMDB_API_KEY')
 BOT_PASSWORD = os.getenv('BOT_PASSWORD')
 CHANNEL_LINK = os.getenv('CHANNEL_LINK')
 
+# In-memory storage for logo URL and other settings
+settings = {
+    'logo_url': '',
+    'channel_link': CHANNEL_LINK
+}
+
 def start(update: Update, _: CallbackContext) -> None:
     update.message.reply_text(
         f'Welcome! Please login with /login <password>\n'
-        f'Visit our channel for more movies: {CHANNEL_LINK}'
+        f'Visit our channel for more movies: {settings["channel_link"]}'
     )
 
 def login(update: Update, context: CallbackContext) -> None:
@@ -82,6 +88,31 @@ def edit_search(update: Update, context: CallbackContext) -> None:
         context.args = update.edited_message.text.split()[1:]
         search(update, context)
 
+def set_logo(update: Update, context: CallbackContext) -> None:
+    if context.args and context.args[0].startswith('http'):
+        settings['logo_url'] = context.args[0]
+        update.message.reply_text('Logo URL set successfully!')
+    else:
+        update.message.reply_text('Please provide a valid URL.')
+
+def edit_channel_link(update: Update, context: CallbackContext) -> None:
+    if context.args and context.args[0].startswith('http'):
+        settings['channel_link'] = context.args[0]
+        update.message.reply_text('Channel link updated successfully!')
+    else:
+        update.message.reply_text('Please provide a valid URL.')
+
+def help_command(update: Update, _: CallbackContext) -> None:
+    update.message.reply_text(
+        "Available commands:\n"
+        "/start - Start the bot\n"
+        "/login <password> - Log in to the bot\n"
+        "/search <movie_name> - Search for a movie\n"
+        "/setlogo <logo_url> - Set the logo URL\n"
+        "/editlink <channel_link> - Edit the channel link\n"
+        "/help - Show this help message"
+    )
+
 def main() -> None:
     updater = Updater(TELEGRAM_BOT_TOKEN)
     
@@ -89,6 +120,9 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("login", login))
     dispatcher.add_handler(CommandHandler("search", search))
+    dispatcher.add_handler(CommandHandler("setlogo", set_logo))
+    dispatcher.add_handler(CommandHandler("editlink", edit_channel_link))
+    dispatcher.add_handler(CommandHandler("help", help_command))
     dispatcher.add_handler(CallbackQueryHandler(button))
     dispatcher.add_handler(MessageHandler(Filters.text & Filters.edited_message, edit_search))
     
