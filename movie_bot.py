@@ -7,17 +7,17 @@ from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageH
 # Get environment variables
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 OMDB_API_KEY = os.getenv('OMDB_API_KEY')
+BOT_PASSWORD = os.getenv('BOT_PASSWORD')
+CHANNEL_LINK = os.getenv('CHANNEL_LINK')
 
 def start(update: Update, _: CallbackContext) -> None:
-    channel_link = "https://t.me/yourchannel"
     update.message.reply_text(
         f'Welcome! Please login with /login <password>\n'
-        f'Visit our channel for more movies: {channel_link}'
+        f'Visit our channel for more movies: {CHANNEL_LINK}'
     )
 
 def login(update: Update, context: CallbackContext) -> None:
-    password = 'yourpassword'
-    if context.args and context.args[0] == password:
+    if context.args and context.args[0] == BOT_PASSWORD:
         update.message.reply_text('Login successful! Use /search <movie_name> to find movies.')
     else:
         update.message.reply_text('Incorrect password. Please try again.')
