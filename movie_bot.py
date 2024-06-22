@@ -34,14 +34,7 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", start))
-    # Add other command handlers here
-
-    updater.start_polling()
-
-    # Start the Flask app for health check
-    app.run(port=8080)
-
-    updater.idle()
+    
 
 def login(update: Update, context: CallbackContext) -> None:
     if context.args and context.args[0] == BOT_PASSWORD:
@@ -142,7 +135,10 @@ def main() -> None:
     dispatcher.add_handler(CallbackQueryHandler(button))
     
     updater.start_polling()
-    updater.idle()
 
+    # Start the Flask app for health check
+    app.run(port=8080)
+
+    updater.idle()
 if __name__ == '__main__':
     main()
