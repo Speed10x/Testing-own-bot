@@ -1,20 +1,36 @@
 import requests
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext
+import time
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters, CallbackContext
 
 # Replace with your bot token and OMDb API key
 TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
 OMDB_API_KEY = 'YOUR_OMDB_API_KEY'
 
 def start(update: Update, _: CallbackContext) -> None:
-    update.message.reply_text('Welcome! Use /search <movie_name> to find movies.')
+    channel_link = "https://t.me/yourchannel"
+    update.message.reply_text(
+        f'Welcome! Please login with /login <password>\n'
+        f'Visit our channel for more movies: {channel_link}'
+    )
+
+def login(update: Update, context: CallbackContext) -> None:
+    password = 'yourpassword'
+    if context.args and context.args[0] == password:
+        update.message.reply_text('Login successful! Use /search <movie_name> to find movies.')
+    else:
+        update.message.reply_text('Incorrect password. Please try again.')
 
 def search(update: Update, context: CallbackContext) -> None:
     query = ' '.join(context.args)
     if not query:
         update.message.reply_text('Please specify a movie name.')
         return
-    
+
+    # Simulate search animation
+    update.message.reply_text('Searching...')
+    time.sleep(2)  # Simulate a delay for animation
+
     url = f'http://www.omdbapi.com/?s={query}&apikey={OMDB_API_KEY}'
     response = requests.get(url).json()
     
@@ -56,17 +72,24 @@ def button(update: Update, context: CallbackContext) -> None:
             f"[Download Link]({download_link})"
         )
         
-        query.edit_message_text(text=message, parse_mode='Markdown')
+        query.edit_message_text(text=message, parse_mode=ParseMode.MARKDOWN)
     else:
         query.edit_message_text(text='Movie details not found.')
+
+def edit_search(update: Update, context: CallbackContext) -> None:
+    if update.edited_message:
+        context.args = update.edited_message.text.split()[1:]
+        search(update, context)
 
 def main() -> None:
     updater = Updater(TELEGRAM_BOT_TOKEN)
     
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(CommandHandler("login", login))
     dispatcher.add_handler(CommandHandler("search", search))
     dispatcher.add_handler(CallbackQueryHandler(button))
+    dispatcher.add_handler(MessageHandler(Filters.text & Filters.edited_message, edit_search))
     
     updater.start_polling()
     updater.idle()
