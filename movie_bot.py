@@ -83,11 +83,6 @@ def button(update: Update, context: CallbackContext) -> None:
     else:
         query.edit_message_text(text='Movie details not found.')
 
-def edit_search(update: Update, context: CallbackContext) -> None:
-    if update.edited_message:
-        context.args = update.edited_message.text.split()[1:]
-        search(update, context)
-
 def set_logo(update: Update, context: CallbackContext) -> None:
     if context.args and context.args[0].startswith('http'):
         settings['logo_url'] = context.args[0]
@@ -124,7 +119,6 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("editlink", edit_channel_link))
     dispatcher.add_handler(CommandHandler("help", help_command))
     dispatcher.add_handler(CallbackQueryHandler(button))
-    dispatcher.add_handler(MessageHandler(Filters.text & Filters.edited_message, edit_search))
     
     updater.start_polling()
     updater.idle()
