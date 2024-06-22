@@ -9,6 +9,8 @@ This is a Telegram bot for searching and downloading movies. The bot uses the OM
 - **Edit Searches**: Users can edit their searches.
 - **Channel Link**: Provides a link to a Telegram channel for more movies.
 - **Search Animation**: Displays a searching animation.
+- **Set Logo**: Set a logo URL for the bot.
+- **Edit Channel Link**: Edit the link to the Telegram channel.
 
 ## Setup
 
