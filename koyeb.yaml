@@ -1,0 +1,17 @@
+version: '1.0'
+
+services:
+  - name: telegram-bot
+    image: python:3.8
+    command: bash -c "pip install Flask && python your_python_file.py"
+    env:
+      - name: TELEGRAM_BOT_TOKEN
+        value: your_telegram_bot_token
+      - name: OMDB_API_KEY
+        value: your_omdb_api_key
+      - name: BOT_PASSWORD
+        value: your_bot_password
+      - name: CHANNEL_LINK
+        value: your_channel_link
+    ports:
+      - 8080:8080
