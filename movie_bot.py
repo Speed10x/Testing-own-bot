@@ -1,11 +1,12 @@
+import os
 import requests
 import time
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters, CallbackContext
 
-# Replace with your bot token and OMDb API key
-TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
-OMDB_API_KEY = 'YOUR_OMDB_API_KEY'
+# Get environment variables
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+OMDB_API_KEY = os.getenv('OMDB_API_KEY')
 
 def start(update: Update, _: CallbackContext) -> None:
     channel_link = "https://t.me/yourchannel"
