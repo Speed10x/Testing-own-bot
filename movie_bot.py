@@ -16,11 +16,30 @@ settings = {
     'channel_link': CHANNEL_LINK
 }
 
+app = Flask(__name__)
+
+@app.route('/')
+def health_check():
+    return 'OK'
+
 def start(update: Update, _: CallbackContext) -> None:
     update.message.reply_text(
         f'Welcome! Please login with /login <password>\n'
         f'Visit our channel for more movies: {settings["channel_link"]}'
     )
+def main() -> None:
+    updater = Updater(TELEGRAM_BOT_TOKEN)
+    dispatcher = updater.dispatcher
+
+    dispatcher.add_handler(CommandHandler("start", start))
+    # Add other command handlers here
+
+    updater.start_polling()
+
+    # Start the Flask app for health check
+    app.run(port=8080)
+
+    updater.idle()
 
 def login(update: Update, context: CallbackContext) -> None:
     if context.args and context.args[0] == BOT_PASSWORD:
