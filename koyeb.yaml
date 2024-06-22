@@ -3,7 +3,7 @@ version: '1.0'
 services:
   - name: telegram-bot
     image: python:3.8
-    command: bash -c "pip install Flask && python your_python_file.py"
+    command: bash -c "pip install Flask && python movie_bot.py"
     env:
       - name: TELEGRAM_BOT_TOKEN
         value: your_telegram_bot_token
