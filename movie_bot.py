@@ -30,13 +30,6 @@ def start(update: Update, _: CallbackContext) -> None:
     )
 
 
-def main() -> None:
-    updater = Updater(TELEGRAM_BOT_TOKEN)
-    dispatcher = updater.dispatcher
-
-    dispatcher.add_handler(CommandHandler("start", start))
-    
-
 def login(update: Update, context: CallbackContext) -> None:
     if context.args and context.args[0] == BOT_PASSWORD:
         update.message.reply_text('Login successful! Use /search <movie_name> to find movies.')
