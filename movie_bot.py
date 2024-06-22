@@ -1,7 +1,7 @@
 import os
 import requests
 import time
-from koyeb.yaml import Flask
+from Flask import Flask
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters, CallbackContext
 
