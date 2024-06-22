@@ -16,6 +16,8 @@ EXPOSE 8080
 # Define environment variables
 ENV TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
 ENV OMDB_API_KEY=YOUR_OMDB_API_KEY
+ENV BOT_PASSWORD=yourpassword
+ENV CHANNEL_LINK=https://t.me/yourchannel
 
 # Run movie_bot.py when the container launches
 CMD ["python", "./movie_bot.py"]
