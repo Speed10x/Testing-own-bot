@@ -1,3 +1,8 @@
+### Updated `Dockerfile`
+
+Ensure your `Dockerfile` correctly passes environment variables:
+
+```dockerfile
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
